@@ -20,10 +20,8 @@ def append_json(filename, data_write):
         json.dump(data, file, ensure_ascii=False)
 
 
-goals = read_json("goals")
-teachers = read_json("teachers")
-week = read_json("week")
-time = read_json("time")
+for name in ["goals", "teachers", "week", "time"]:
+    exec(name + "= read_json(name)")
 
 
 class Form(FlaskForm):
