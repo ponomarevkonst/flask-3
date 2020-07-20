@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block container %}
+  <main class="container mt-5">
+    <div class="col-12 col-sm-10 col-lg-6 offset-lg-3 offset-sm-1">
+      <form action="/request_done/" class="card mb-5" method="post">
+        <div class="card-body text-center pt-5">
+          <h1 class="h3 card-title mt-4 mb-2">Подбор преподавателя</h1>
+          <p class="px-5">Напишите, чего вам нужно и&nbsp;мы&nbsp;подберем отличных&nbsp;ребят</p>
+        </div>
+        <hr>
+        <div class="card-body mx-3">
+          <div class="row">
+            <div class="col">
+              <p>Какая цель занятий?</p>
+              {% set count = namespace(value=0) %}{% for key, value in goals.items() %}<div class="form-check ">
+                <input type="radio" class="form-check-input" name="goal" value="{{ key }}" id="goal{{ count.value }}" checked>
+                <label class="form-check-label" for="goal{{ count.value }}">{% set count.value = count.value + 1 %}
+                  {{value}}
+                </label>
+              </div>{% endfor %}
+            </div>
+            <div class="col">
+              <p>Сколько времени есть?</p>
+              {% set count = namespace(value=0) %}{% for key, value in time.items() %}<div class="form-check">
+                <input type="radio" class="form-check-input" name="time" value="{{ key }}" id="time{{ count.value }}" checked>
+                <label class="form-check-label" for="time{{ count.value }}">{% set count.value = count.value + 1 %}
+                  {{ value }}
+                </label> 
+              </div>{% endfor %}
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="card-body mx-3">
+            {{ form.name.label }}<br>
+            {{ form.name }}<br>
+
+            {{ form.phone.label }}<br>
+            {{ form.phone }}<br>
+          <input type="submit" class="btn btn-primary mt-4 mb-2" value="Найдите мне преподавателя">
+        </div>
+      </form>
+    </div>
+  </main>
+{% endblock %}
