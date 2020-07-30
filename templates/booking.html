@@ -1,35 +1,43 @@
 {% extends 'base.html' %}
 
 {% block container %}
-  <main class="container mt-3">
-    <div class="row mt-5">
-      <div class="col-10 col-md-6 offset-1 offset-md-3 mb-3">
-        <form action="/booking_done/" class="card mb-3" method="POST">
-          <div class="card-body text-center pt-5">
-            <img src="{{ teacher.picture }}" class="mb-3" width="95" alt="">
-            <h2 class="h5 card-title mt-2 mb-2">{{ teacher.name }}</h2>
-            <p class="my-1">Запись на пробный урок</p>
-            <p class="my-1">{{ week[day] }}, {{ time }}:00</p>
-          </div>
-          <hr />
-          <div class="card-body mx-3">
-              <div class="row">
-                  {{ form.weekday(value=day) }}
-                  {{ form.time(value=time) }}
-                  {{ form.teacher(value=id) }}
-              </div>
+    <main class="container mt-3">
+        <div class="row mt-5">
+            <div class="col-10 col-md-6 offset-1 offset-md-3 mb-3">
+                <form action="/booking/{{ id }}/{{ day }}/{{ time }}" class="card mb-3" method="POST">
+                    <div class="card-body text-center pt-5">
+                        <img src="{{ teacher.picture }}" class="mb-3" width="95" alt="">
+                        <h2 class="h5 card-title mt-2 mb-2">{{ teacher.name }}</h2>
+                        <p class="my-1">Запись на пробный урок</p>{{ form.hidden_tag() }}
+                        <p class="my-1">{{ week[day] }}, {{ time }}:00</p>
+                    </div>
+                    <hr/>
+                    <div class="card-body mx-3">
+                        <div class="row">
+                            {{ form.weekday(value=day) }}
+                            {{ form.time(value=time) }}
+                            {{ form.teacher(value=id) }}
+                        </div>
+                        {% if form.errors %}
+                            <ul class="errors">
+                                {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                                    {% for error in field_errors %}
+                                        <li>{{ form[field_name].label }}: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {{ form.name.label }}<br>
+                        {{ form.name }}<br>
 
-            {{ form.name.label }}<br>
-            {{ form.name }}<br>
+                        {{ form.phone.label }}<br>
+                        {{ form.phone }}<br>
 
-            {{ form.phone.label }}<br>
-            {{ form.phone }}<br>
+                        <input type="submit" class="btn btn-primary btn-block mt-4" value="Записаться на пробный урок">
 
-            <input type="submit" class="btn btn-primary btn-block mt-4" value="Записаться на пробный урок">
-
-          </div>
-        </form>
-      </div>
-    </div>
-  </main>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 {% endblock %}
